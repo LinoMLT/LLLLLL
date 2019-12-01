@@ -18,7 +18,7 @@ class MenuLayer extends Layer {
     calcularPulsaciones(pulsaciones) {
         this.boton.pulsado = false;
 
-        for (var i = 0; i < pulsaciones.length; i++) {
+        for (let i = 0; i < pulsaciones.length; i++) {
             if (this.boton.contienePunto(pulsaciones[i].x, pulsaciones[i].y)) {
                 this.boton.pulsado = true;
                 if (pulsaciones[i].tipo === tipoPulsacion.inicio) {

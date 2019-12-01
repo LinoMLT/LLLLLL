@@ -2,7 +2,7 @@ class GameLayer extends Layer {
 
     constructor() {
         super();
-        this.pausa = true;
+        this.pausa = false;
         this.iniciar();
     }
 
@@ -108,12 +108,12 @@ class GameLayer extends Layer {
     }
 
     cargarMapa(ruta) {
-        var fichero = new XMLHttpRequest();
+        let fichero = new XMLHttpRequest();
         fichero.open("GET", ruta, false);
 
         fichero.onreadystatechange = function () {
-            var texto = fichero.responseText;
-            var lineas = texto.split('\n');
+            let texto = fichero.responseText;
+            let lineas = texto.split('\n');
             this.anchoMapa = (lineas[0].length - 1) * 8;
             for (let i = 0; i < lineas.length; i++) {
                 let linea = lineas[i];
@@ -138,19 +138,16 @@ class GameLayer extends Layer {
                 this.bloques.push(bloqueFondo);
                 break;
             case "E":
-                var enemigo = new Enemigo(x, y);
+                let enemigo = new Enemigo(x, y);
                 enemigo.y = enemigo.y - enemigo.alto / 2;
-                // modificación para empezar a contar desde el suelo
                 this.enemigos.push(enemigo);
                 this.espacio.agregarCuerpoDinamico(enemigo);
                 break;
             case "J":
                 if (this.jugador == null) {
                     this.jugador = new Jugador(x, y);
-                    // modificación para empezar a contar desde el suelo
                     this.jugador.x += this.jugador.ancho / 2;
                     this.jugador.y += this.jugador.alto / 2;
-                    this.espacio.agregarCuerpoDinamico(this.jugador);
                 }
                 break;
             case "#":
@@ -172,19 +169,19 @@ class GameLayer extends Layer {
         // Suponemos a false
         controles.continuar = false;
 
-        for (var i = 0; i < pulsaciones.length; i++) {
+        for (let i = 0; i < pulsaciones.length; i++) {
             // MUY SIMPLE SIN BOTON cualquier click en pantalla lo activa
             if (pulsaciones[i].tipo === tipoPulsacion.inicio) {
                 controles.continuar = true;
             }
 
             if (this.pad.contienePunto(pulsaciones[i].x, pulsaciones[i].y)) {
-                var orientacionX = this.pad.obtenerOrientacionX(pulsaciones[i].x);
+                let orientacionX = this.pad.obtenerOrientacionX(pulsaciones[i].x);
                 if (orientacionX > 20) { // de 0 a 20 no contabilizamos
-                    controles.moverX = orientacionX;
+                    controles.moverX = 1;
                 }
                 if (orientacionX < -20) { // de -20 a 0 no contabilizamos
-                    controles.moverX = orientacionX;
+                    controles.moverX = -1;
                 }
             }
 
@@ -198,7 +195,7 @@ class GameLayer extends Layer {
             if (this.botonSalto.contienePunto(pulsaciones[i].x, pulsaciones[i].y)) {
                 this.botonSalto.pulsado = true;
                 if (pulsaciones[i].tipo === tipoPulsacion.inicio) {
-                    controles.moverY = 1;
+                    controles.saltar = true;
                 }
             }
         }
@@ -210,7 +207,7 @@ class GameLayer extends Layer {
 
         // No pulsado - Boton Salto
         if (!this.botonSalto.pulsado) {
-            controles.moverY = 0;
+            controles.saltar = false;
         }
     }
 

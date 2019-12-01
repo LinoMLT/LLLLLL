@@ -9,24 +9,24 @@ window.addEventListener('touchcancel', eliminarTouch, false);
 window.addEventListener('touchleave', eliminarTouch, false);
 
 function touchstart(event) {
-    var touches = event.changedTouches;
-    for (var i = 0; i < touches.length; i++) {
+    let touches = event.changedTouches;
+    for (let i = 0; i < touches.length; i++) {
         agregarPulsacion(touches[i].identifier,
             tipoPulsacion.inicio, touches[i]);
     }
 }
 
 function touchmove(event) {
-    var touches = event.changedTouches;
-    for (var i = 0; i < touches.length; i++) {
+    let touches = event.changedTouches;
+    for (let i = 0; i < touches.length; i++) {
         agregarPulsacion(touches[i].identifier,
             tipoPulsacion.mantener, touches[i]);
     }
 }
 
 function eliminarTouch(event) {
-    var touches = event.changedTouches;
-    for (var i = 0; i < touches.length; i++) {
+    let touches = event.changedTouches;
+    for (let i = 0; i < touches.length; i++) {
         eliminarPulsacion(touches[i].identifier);
     }
 }
@@ -53,7 +53,7 @@ function agregarPulsacion(id, tipoPulsacion, event) {
     x = event.pageX - canvas.offsetLeft;
     y = event.pageY - canvas.offsetTop;
 
-    var p = {
+    let p = {
         x: x / escaladoMinimo,
         y: y / escaladoMinimo,
         id: id,
@@ -61,7 +61,7 @@ function agregarPulsacion(id, tipoPulsacion, event) {
         timeStamp: event.timeStamp
     };
 
-    var pulsacionEncontrada = false;
+    let pulsacionEncontrada = false;
     for (let i = 0; i < pulsaciones.length; i++) {
         if (pulsaciones[i].id === id) {
             pulsaciones[i] = p;
@@ -75,9 +75,8 @@ function agregarPulsacion(id, tipoPulsacion, event) {
 
 }
 
-
 function eliminarPulsacion(id) {
-    for (var i = 0; i < pulsaciones.length; i++) {
+    for (let i = 0; i < pulsaciones.length; i++) {
         if (pulsaciones[i].id === id) {
             pulsaciones.splice(i, 1);
         }

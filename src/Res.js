@@ -1,5 +1,5 @@
-var cache = [];
-var imagenes = {
+let cache = [];
+let imagenes = {
     fondo: "res/fondo.png",
     menu_fondo: "res/menu_fondo.png",
 
@@ -26,7 +26,7 @@ var imagenes = {
     boton_jugar: "res/boton_jugar.png"
 };
 
-var rutasImagenes = Object.values(imagenes);
+let rutasImagenes = Object.values(imagenes);
 cargarImagenes(0);
 
 function cargarImagenes(indice) {

@@ -20,7 +20,7 @@ class Modelo {
 
 
     colisiona(modelo) {
-        var colisiona = false;
+        let colisiona = false;
 
         if (modelo.x - modelo.ancho / 2 <= this.x + this.ancho / 2
             && modelo.x + modelo.ancho / 2 >= this.x - this.ancho / 2

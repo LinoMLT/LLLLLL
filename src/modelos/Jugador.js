@@ -91,13 +91,12 @@ class Jugador extends Modelo {
                 }
                 break;
         }
-
-
         this.animacion.actualizar();
     }
 
     dibujar() {
         this.animacion.dibujar(this.x, this.y);
+        console.log(this.vx, this.vy);
     }
 
     moverX(direccion) {

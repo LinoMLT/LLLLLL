@@ -1,7 +1,7 @@
 console.log("Navegador admiteMandos: " + admiteMandos());
 
 // Los que hay pulsados actualmente
-var botonesPulsados = [];
+let botonesPulsados = [];
 
 function admiteMandos() {
     return "getGamepads" in navigator;
@@ -9,7 +9,7 @@ function admiteMandos() {
 
 window.addEventListener("gamepadconnected", function (e) {
     // console.log("GamePad Conectado tipo: " + e.gamepad.id);
-    // Se podrían conectar varios, multijugador
+    // Se podrían conectar letios, multijugador
     // console.log("Número: " + e.gamepad.index);
 
     // Leer botones del mando
@@ -21,9 +21,9 @@ window.addEventListener("gamepadconnected", function (e) {
 
 function actualizarOrdenes() {
     // Obtener gamePad en cada iteración. Si no se detecta el mando probar con: navigator.getGamepads()[0]
-    var gP1 = navigator.getGamepads()[1];
+    let gP1 = navigator.getGamepads()[1];
 
-    for (var i = 0; i < gP1.buttons.length; i++) {
+    for (let i = 0; i < gP1.buttons.length; i++) {
         if (gP1.buttons[i].pressed) {
             entrada = entradas.gamepad;
         }

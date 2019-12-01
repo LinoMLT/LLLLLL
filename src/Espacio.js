@@ -91,21 +91,21 @@ class Espacio {
     moverIzquierda(i) {
         // Izquierda
         if (this.dinamicos[i].vx < 0) {
-            var movimientoPosible = this.dinamicos[i].vx;
+            let movimientoPosible = this.dinamicos[i].vx;
             // El mejor "idealmente" vx partimos de ese
 
-            for (var j = 0; j < this.estaticos.length; j++) {
-                var izquierdaDinamico
+            for (let j = 0; j < this.estaticos.length; j++) {
+                let izquierdaDinamico
                     = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
-                var arribaDinamico
+                let arribaDinamico
                     = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
-                var abajoDinamico
+                let abajoDinamico
                     = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
-                var derechaEstatico
+                let derechaEstatico
                     = this.estaticos[j].x + this.estaticos[j].ancho / 2;
-                var arribaEstatico
+                let arribaEstatico
                     = this.estaticos[j].y - this.estaticos[j].alto / 2;
-                var abajoEstatico
+                let abajoEstatico
                     = this.estaticos[j].y + this.estaticos[j].alto / 2;
 
                 // Alerta!, Elemento estático en la trayectoria.
@@ -132,25 +132,25 @@ class Espacio {
 
     moverAbajo(i) {
         if (this.dinamicos[i].vy > 0) {
-            var movimientoPosible = this.dinamicos[i].vy;
+            let movimientoPosible = this.dinamicos[i].vy;
             // El mejor "idealmente" es la velocidad vy.
 
-            for (var j = 0; j < this.estaticos.length; j++) {
-                var arribaDinamico
+            for (let j = 0; j < this.estaticos.length; j++) {
+                let arribaDinamico
                     = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
-                var abajoDinamico
+                let abajoDinamico
                     = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
-                var derechaDinamico
+                let derechaDinamico
                     = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
-                var izquierdaDinamico
+                let izquierdaDinamico
                     = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
-                var arribaEstatico
+                let arribaEstatico
                     = this.estaticos[j].y - this.estaticos[j].alto / 2;
-                var abajoEstatico
+                let abajoEstatico
                     = this.estaticos[j].y + this.estaticos[j].alto / 2;
-                var derechaEstatico
+                let derechaEstatico
                     = this.estaticos[j].x + this.estaticos[j].ancho / 2;
-                var izquierdaEstatico
+                let izquierdaEstatico
                     = this.estaticos[j].x - this.estaticos[j].ancho / 2;
 
                 // Alerta!, Elemento estático en la trayectoria.
@@ -177,25 +177,25 @@ class Espacio {
 
     moverArriba(i) {
         if (this.dinamicos[i].vy < 0) {
-            var movimientoPosible = this.dinamicos[i].vy;
+            let movimientoPosible = this.dinamicos[i].vy;
             // El mejor "idealmente" es la velocidad vy.
 
-            for (var j = 0; j < this.estaticos.length; j++) {
-                var arribaDinamico
+            for (let j = 0; j < this.estaticos.length; j++) {
+                let arribaDinamico
                     = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
-                var abajoDinamico
+                let abajoDinamico
                     = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
-                var derechaDinamico
+                let derechaDinamico
                     = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
-                var izquierdaDinamico
+                let izquierdaDinamico
                     = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
-                var arribaEstatico
+                let arribaEstatico
                     = this.estaticos[j].y - this.estaticos[j].alto / 2;
-                var abajoEstatico
+                let abajoEstatico
                     = this.estaticos[j].y + this.estaticos[j].alto / 2;
-                var derechaEstatico
+                let derechaEstatico
                     = this.estaticos[j].x + this.estaticos[j].ancho / 2;
-                var izquierdaEstatico
+                let izquierdaEstatico
                     = this.estaticos[j].x - this.estaticos[j].ancho / 2;
 
                 // Alerta!, Elemento estático en la trayectoria

@@ -1,7 +1,7 @@
-var cancion = new Audio("res/pushing_onwards.mp3");
+let cancion = new Audio("res/pushing_onwards.mp3");
 cancion.loop = true;
 
-var efectos = {
+let efectos = {
     // disparo: "res/efecto_disparo.mp3",
     // explosion: "res/efecto_explosion.mp3",
 };
@@ -15,6 +15,6 @@ function pararMusica() {
 }
 
 function reproducirEfecto(srcEfecto) {
-    var efecto = new Audio(srcEfecto);
+    let efecto = new Audio(srcEfecto);
     efecto.play();
 }

@@ -1,4 +1,4 @@
-var teclas = [];
+let teclas = [];
 
 window.addEventListener('keydown', onKeyDown, false);
 window.addEventListener('keyup', onKeyUp, false);

@@ -38,7 +38,7 @@ let entrada = entradas.pulsaciones;
 let escaladoMinimo = 1;
 
 let nivelActual = {
-    x: 1,
+    x: 0,
     y: 0
 };
 let nivelMaximo = {
