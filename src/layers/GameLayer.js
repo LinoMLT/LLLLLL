@@ -11,6 +11,7 @@ class GameLayer extends Layer {
         this.botonSalto = new Boton(imagenes.boton_salto, anchoNativo * 0.9, altoNativo * 0.55);
         this.botonDisparo = new Boton(imagenes.boton_disparo, anchoNativo * 0.75, altoNativo * 0.83);
         this.pad = new Pad(anchoNativo * 0.14, altoNativo * 0.8);
+        this.fondo = new Fondo(imagenes.fondo, anchoNativo * 0.5, altoNativo * 0.5);
 
         this.iniciarNivelActual();
 
@@ -19,7 +20,6 @@ class GameLayer extends Layer {
     iniciarNivelActual() {
         this.espacio = new Espacio();
         this.bloques = [];
-        this.fondo = new Fondo(imagenes.fondo, anchoNativo * 0.5, altoNativo * 0.5);
         this.enemigos = [];
 
         this.cargarMapa("res/" + nivelActual.x + "_" + nivelActual.y + ".txt");
@@ -238,7 +238,6 @@ class GameLayer extends Layer {
         if (nivelActual.y < 0)
             nivelActual.y = nivelMaximo.y;
 
-        console.log("x:", nivelActual.x, "y:", nivelActual.y);
         this.iniciarNivelActual();
     }
 

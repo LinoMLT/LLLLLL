@@ -96,7 +96,6 @@ class Jugador extends Modelo {
 
     dibujar() {
         this.animacion.dibujar(this.x, this.y);
-        console.log(this.vx, this.vy);
     }
 
     moverX(direccion) {
