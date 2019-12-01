@@ -53,15 +53,16 @@ function agregarPulsacion(id, tipoPulsacion, event) {
     x = event.pageX - canvas.offsetLeft;
     y = event.pageY - canvas.offsetTop;
 
-    var p = {};
-    p.x = x / escaladoMinimo;
-    p.y = y / escaladoMinimo;
-    p.id = id; // Ratón SOLO hay 1
-    p.tipo = tipoPulsacion;
-    p.timeStamp = event.timeStamp;
+    var p = {
+        x: x / escaladoMinimo,
+        y: y / escaladoMinimo,
+        id: id,
+        tipo: tipoPulsacion,
+        timeStamp: event.timeStamp
+    };
 
     var pulsacionEncontrada = false;
-    for (var i = 0; i < pulsaciones.length; i++) {
+    for (let i = 0; i < pulsaciones.length; i++) {
         if (pulsaciones[i].id === id) {
             pulsaciones[i] = p;
             pulsacionEncontrada = true;

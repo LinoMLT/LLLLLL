@@ -1,25 +1,31 @@
-var pulsaciones = []; // actuales registradas
+const anchoNativo = 320;
+const altoNativo = 240;
 
-var entradas = {}; // tipos
-entradas.pulsaciones = 1;
-entradas.teclado = 2;
-entradas.gamepad = 3;
+const entradas = {
+    pulsaciones: 1,
+    teclado: 2,
+    gamepad: 3
+};
+
+const tipoPulsacion = {
+    inicio: 1,
+    mantener: 2
+};
+
+const estados = {
+    quieto: 1,
+    corriendo: 2,
+    saltando: 3,
+    mueriendo: 4,
+    muerto: 5
+};
+
+const orientaciones = {
+    derecha: 1,
+    izquierda: 2
+};
+
+var pulsaciones = [];
 var entrada = entradas.pulsaciones;
-var tipoPulsacion = {}; // tipos
-tipoPulsacion.inicio = 1;
-tipoPulsacion.mantener = 2;
-
+let escaladoMinimo = 1;
 var nivelActual = 0;
-var nivelMaximo = 2;
-
-var estados = {};
-estados.moviendo = 2; // Incluye parado, derecha , izquierda
-estados.saltando = 3;
-estados.muriendo = 4;
-estados.muerto = 5;
-estados.disparando = 6;
-estados.impactado = 7;
-
-var orientaciones = {};
-orientaciones.derecha = 2;
-orientaciones.izquierda = 3;

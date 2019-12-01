@@ -8,9 +8,9 @@ function admiteMandos() {
 }
 
 window.addEventListener("gamepadconnected", function (e) {
-    console.log("GamePad Conectado tipo: " + e.gamepad.id);
+    // console.log("GamePad Conectado tipo: " + e.gamepad.id);
     // Se podrían conectar varios, multijugador
-    console.log("Número: " + e.gamepad.index);
+    // console.log("Número: " + e.gamepad.index);
 
     // Leer botones del mando
     if (navigator.getGamepads()[0] != null) {
@@ -50,12 +50,12 @@ function actualizarOrdenes() {
     if (gP1.buttons[2].pressed) { // 2 es el botón A
         if (botonesPulsados[2] === false) {
             botonesPulsados[2] = true;
-            controles.disparo = true;
+            // controles.disparo = true;
             controles.continuar = true;
         }
     } else {
         botonesPulsados[2] = false;
-        controles.disparo = false;
+        // controles.disparo = false;
         controles.continuar = false;
     }
 }

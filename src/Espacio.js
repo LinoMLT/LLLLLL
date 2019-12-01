@@ -6,6 +6,10 @@ class Espacio {
         this.estaticos = [];
     }
 
+    invertirGravedad() {
+        this.gravedad = -this.gravedad;
+    }
+
     agregarCuerpoDinamico(modelo) {
         this.dinamicos.push(modelo);
     }
@@ -16,7 +20,7 @@ class Espacio {
 
     eliminarCuerpoDinamico(modelo) {
         for (var i = 0; i < this.dinamicos.length; i++) {
-            if (this.dinamicos[i] == modelo) {
+            if (this.dinamicos[i] === modelo) {
                 this.dinamicos.splice(i, 1);
             }
         }
@@ -24,35 +28,32 @@ class Espacio {
 
     eliminarCuerpoEstatico(modelo) {
         for (var i = 0; i < this.estaticos.length; i++) {
-            if (this.estaticos[i] == modelo) {
+            if (this.estaticos[i] === modelo) {
                 this.estaticos.splice(i, 1);
             }
         }
     }
 
     actualizar() {
-        for (var i = 0; i < this.dinamicos.length; i++) {
-
+        for (let i = 0; i < this.dinamicos.length; i++) {
             // aplicar gravedad ( dinamicos)
             this.dinamicos[i].vy = this.dinamicos[i].vy + this.gravedad;
+
             // maxima velocidad de caida por gravedad
-            if (this.dinamicos[i].vy > 20) {
-                this.dinamicos[i].vy = 20;
-            }
+            if (this.dinamicos[i].vy > 10)
+                this.dinamicos[i].vy = 10;
+            else if (this.dinamicos[i].vy < -10)
+                this.dinamicos[i].vy = -10;
 
             // reiniciar choques
             this.dinamicos[i].choqueAbajo = false;
-            this.dinamicos[i].fueraPorDerecha = true;
-            this.dinamicos[i].fueraPorIzquierda = true;
 
             //derecha
             this.moverDerecha(i);
             this.moverIzquierda(i);
             this.moverArriba(i);
             this.moverAbajo(i);
-
         }
-
     }
 
     moverDerecha(i) {
@@ -60,18 +61,18 @@ class Espacio {
             var movimientoPosible = this.dinamicos[i].vx;
             // El mejor "idealmente" vx partimos de ese
 
-            for (var j = 0; j < this.estaticos.length; j++) {
-                var derechaDinamico
+            for (let j = 0; j < this.estaticos.length; j++) {
+                let derechaDinamico
                     = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
-                var arribaDinamico
+                let arribaDinamico
                     = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
-                var abajoDinamico
+                let abajoDinamico
                     = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
-                var izquierdaEstatico
+                let izquierdaEstatico
                     = this.estaticos[j].x - this.estaticos[j].ancho / 2;
-                var arribaEstatico
+                let arribaEstatico
                     = this.estaticos[j].y - this.estaticos[j].alto / 2;
-                var abajoEstatico
+                let abajoEstatico
                     = this.estaticos[j].y + this.estaticos[j].alto / 2;
 
                 // Alerta!, Elemento estático en la trayectoria.
@@ -174,13 +175,6 @@ class Espacio {
                         // Tenemos que actualizar el movimiento posible a uno menor
                         movimientoPosible = arribaEstatico - abajoDinamico;
                         this.dinamicos[i].choqueAbajo = true;
-
-                        if (derechaDinamico <= derechaEstatico) {
-                            this.dinamicos[i].fueraPorDerecha = false;
-                        }
-                        if (izquierdaDinamico >= izquierdaEstatico) {
-                            this.dinamicos[i].fueraPorIzquierda = false;
-                        }
                     }
                 }
             }

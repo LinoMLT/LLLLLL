@@ -6,8 +6,8 @@ class MenuLayer extends Layer {
     }
 
     iniciar() {
-        this.fondo = new Fondo(imagenes.menu_fondo, 480 * 0.5, 320 * 0.5);
-        this.boton = new Boton(imagenes.boton_jugar, 480 * 0.5, 320 * 0.7);
+        this.fondo = new Fondo(imagenes.menu_fondo, anchoNativo * 0.5, altoNativo * 0.5);
+        this.boton = new Boton(imagenes.boton_jugar, anchoNativo * 0.5, altoNativo * 0.7);
     }
 
     dibujar() {

@@ -31,9 +31,9 @@ class Modelo {
     }
 
     estaEnPantalla() {
-        if ((this.x - gameLayer.scrollX) - this.ancho / 2 <= 480 &&
+        if ((this.x - gameLayer.scrollX) - this.ancho / 2 <= anchoNativo &&
             (this.x - gameLayer.scrollX) + this.ancho / 2 >= 0 &&
-            this.y - this.alto / 2 <= 320 &&
+            this.y - this.alto / 2 <= altoNativo &&
             this.y + this.alto / 2 >= 0) {
             return true;
         }

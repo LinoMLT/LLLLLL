@@ -1,15 +1,15 @@
 // Canvas y contexto del Canvas
-var canvas = document.getElementById("canvas");
-var contexto = canvas.getContext("2d");
-var escaladoMinimo = 1;
+let canvas = document.getElementById("canvas");
+let contexto = canvas.getContext("2d");
+contexto.imageSmoothingEnabled = false;
 
 // Capas
-var layer;
-var gameLayer;
-var menuLayer;
+let layer;
+let gameLayer;
+let menuLayer;
 
 // Controles
-var controles = {};
+let controles = {};
 
 
 // Inicio capas y bucle del juego
@@ -31,7 +31,7 @@ function loop() {
 }
 
 function actualizarPulsaciones() {
-    for (var i = 0; i < pulsaciones.length; i++) {
+    for (let i = 0; i < pulsaciones.length; i++) {
         if (pulsaciones[i].tipo === tipoPulsacion.inicio) {
             pulsaciones[i].tipo = tipoPulsacion.mantener;
         }
@@ -43,15 +43,16 @@ function actualizarPulsaciones() {
 window.addEventListener('load', resize, false);
 
 function resize() {
-    console.log("Resize")
-    var escaladoAncho = parseFloat(window.innerWidth / canvas.width);
-    var escaladoAlto = parseFloat(window.innerHeight / canvas.height);
+    console.log("Resize");
+    let escaladoAncho = parseFloat(window.innerWidth / canvas.width);
+    let escaladoAlto = parseFloat(window.innerHeight / canvas.height);
 
-    escaladoMinimo = Math.min(escaladoAncho, escaladoAlto);
+    escaladoMinimo = Math.trunc(Math.min(escaladoAncho, escaladoAlto));
 
     canvas.width = canvas.width * escaladoMinimo;
     canvas.height = canvas.height * escaladoMinimo;
 
     contexto.scale(escaladoMinimo, escaladoMinimo);
+    contexto.imageSmoothingEnabled = false;
 }
 

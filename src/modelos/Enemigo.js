@@ -62,15 +62,8 @@ class Enemigo extends Modelo {
         }
     }
 
-    dibujar(scrollX) {
-        scrollX = scrollX || 0;
-        this.animacion.dibujar(this.x - scrollX, this.y);
-    }
-
-    impactado() {
-        if (this.estado !== estados.muriendo) {
-            this.estado = estados.muriendo;
-        }
+    dibujar() {
+        this.animacion.dibujar(this.x, this.y);
     }
 
 }
