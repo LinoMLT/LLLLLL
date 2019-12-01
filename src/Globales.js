@@ -21,11 +21,17 @@ const estados = {
 };
 
 const orientaciones = {
-    derecha: 1,
-    izquierda: 2
+    x: {
+        derecha: 1,
+        izquierda: 2
+    },
+    y: {
+        normal: 1,
+        inversa: 2
+    }
 };
 
-var pulsaciones = [];
-var entrada = entradas.pulsaciones;
+let pulsaciones = [];
+let entrada = entradas.pulsaciones;
 let escaladoMinimo = 1;
-var nivelActual = 0;
+let nivelActual = 0;
