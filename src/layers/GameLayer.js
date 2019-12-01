@@ -12,13 +12,18 @@ class GameLayer extends Layer {
         this.botonDisparo = new Boton(imagenes.boton_disparo, anchoNativo * 0.75, altoNativo * 0.83);
         this.pad = new Pad(anchoNativo * 0.14, altoNativo * 0.8);
 
-        this.espacio = new Espacio(5);
+        this.iniciarNivelActual();
 
+    }
+
+    iniciarNivelActual() {
+        this.espacio = new Espacio();
         this.bloques = [];
         this.fondo = new Fondo(imagenes.fondo, anchoNativo * 0.5, altoNativo * 0.5);
         this.enemigos = [];
 
-        this.cargarMapa("res/" + nivelActual + ".txt");
+        this.cargarMapa("res/" + nivelActual.x + "_" + nivelActual.y + ".txt");
+        this.espacio.agregarCuerpoDinamico(this.jugador);
     }
 
     actualizar() {
@@ -26,9 +31,21 @@ class GameLayer extends Layer {
             return;
         }
 
+        // GRAVEDAD TODO Mover de aquí
+        this.jugador.vy += this.jugador.gravedad;
+
+        // maxima velocidad de caida por gravedad
+        if (this.jugador.vy > 10)
+            this.jugador.vy = 10;
+        else if (this.jugador.vy < -10)
+            this.jugador.vy = -10;
+
+
         this.espacio.actualizar();
         this.fondo.actualizar();
         this.jugador.actualizar();
+        if (!this.jugador.estaEnPantalla())
+            this.cambiarNivel();
 
         for (let i = 0; i < this.enemigos.length; i++) {
             this.enemigos[i].actualizar();
@@ -76,7 +93,7 @@ class GameLayer extends Layer {
 
         // Eje X
         if (controles.moverX > 0) {
-            this.jugador.moverX(1);
+            this.jugador.moverX(1); // TODO Cambiar a cambiarVelocidad
 
         } else if (controles.moverX < 0) {
             this.jugador.moverX(-1);
@@ -85,13 +102,8 @@ class GameLayer extends Layer {
             this.jugador.moverX(0);
         }
         // Eje Y
-        if (controles.moverY > 0) {
-            if (this.jugador.invertirGravedad())
-                this.espacio.invertirGravedad();
-
-        } else if (controles.moverY < 0) {
-            if (this.jugador.invertirGravedad())
-                this.espacio.invertirGravedad();
+        if (controles.saltar) {
+            this.jugador.invertirGravedad()
         }
     }
 
@@ -119,7 +131,7 @@ class GameLayer extends Layer {
 
     cargarObjetoMapa(simbolo, x, y) {
         switch (simbolo) {
-            case "-":
+            case "+":
                 let bloqueFondo = new Bloque(imagenes.bloque_fondo_sin_bordes, x, y);
                 bloqueFondo.x += bloqueFondo.ancho / 2;
                 bloqueFondo.y += bloqueFondo.alto / 2;
@@ -133,11 +145,13 @@ class GameLayer extends Layer {
                 this.espacio.agregarCuerpoDinamico(enemigo);
                 break;
             case "J":
-                this.jugador = new Jugador(x, y);
-                // modificación para empezar a contar desde el suelo
-                this.jugador.x += this.jugador.ancho / 2;
-                this.jugador.y += this.jugador.alto / 2;
-                this.espacio.agregarCuerpoDinamico(this.jugador);
+                if (this.jugador == null) {
+                    this.jugador = new Jugador(x, y);
+                    // modificación para empezar a contar desde el suelo
+                    this.jugador.x += this.jugador.ancho / 2;
+                    this.jugador.y += this.jugador.alto / 2;
+                    this.espacio.agregarCuerpoDinamico(this.jugador);
+                }
                 break;
             case "#":
                 let bloqueBorde = new Bloque(imagenes.bloque_sin_bordes, x, y);
@@ -198,6 +212,37 @@ class GameLayer extends Layer {
         if (!this.botonSalto.pulsado) {
             controles.moverY = 0;
         }
+    }
+
+    cambiarNivel() {
+        if (this.jugador.fuera.arriba) {
+            nivelActual.y--;
+            this.jugador.y = altoNativo - this.jugador.alto / 2;
+        }
+        if (this.jugador.fuera.abajo) {
+            nivelActual.y++;
+            this.jugador.y = 0 + this.jugador.alto / 2;
+        }
+        if (this.jugador.fuera.izquierda) {
+            nivelActual.x--;
+            this.jugador.x = anchoNativo - this.jugador.ancho / 2;
+        }
+        if (this.jugador.fuera.derecha) {
+            nivelActual.x++;
+            this.jugador.x = 0 + this.jugador.ancho / 2;
+        }
+
+        if (nivelActual.x > nivelMaximo.x)
+            nivelActual.x = 0;
+        if (nivelActual.x < 0)
+            nivelActual.x = nivelMaximo.x;
+        if (nivelActual.y > nivelMaximo.y)
+            nivelActual.y = 0;
+        if (nivelActual.y < 0)
+            nivelActual.y = nivelMaximo.y;
+
+        console.log("x:", nivelActual.x, "y:", nivelActual.y);
+        this.iniciarNivelActual();
     }
 
 }

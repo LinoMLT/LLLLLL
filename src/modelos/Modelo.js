@@ -6,13 +6,16 @@ class Modelo {
         this.y = y;
         this.ancho = this.imagen.width;
         this.alto = this.imagen.height;
+        this.fuera = {
+            arriba: false,
+            abajo: false,
+            izquierda: false,
+            derecha: false
+        };
     }
 
-    dibujar(scrollX) {
-        scrollX = scrollX || 0;
-        contexto.drawImage(this.imagen,
-            this.x - this.imagen.width / 2 - scrollX,
-            this.y - this.imagen.height / 2);
+    dibujar() {
+        contexto.drawImage(this.imagen, this.x - this.ancho / 2, this.y - this.alto / 2);
     }
 
 
@@ -31,13 +34,12 @@ class Modelo {
     }
 
     estaEnPantalla() {
-        if ((this.x - gameLayer.scrollX) - this.ancho / 2 <= anchoNativo &&
-            (this.x - gameLayer.scrollX) + this.ancho / 2 >= 0 &&
-            this.y - this.alto / 2 <= altoNativo &&
-            this.y + this.alto / 2 >= 0) {
-            return true;
-        }
-        return false;
+        this.fuera.arriba = this.y <= 0;
+        this.fuera.abajo = this.y >= altoNativo;
+        this.fuera.izquierda = this.x <= 0;
+        this.fuera.derecha = this.x >= anchoNativo;
+
+        return !this.fuera.arriba && !this.fuera.abajo && !this.fuera.izquierda && !this.fuera.derecha;
     }
 
 }

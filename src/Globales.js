@@ -1,6 +1,8 @@
 const anchoNativo = 320;
 const altoNativo = 240;
 
+const gravedadModulo = 5;
+
 const entradas = {
     pulsaciones: 1,
     teclado: 2,
@@ -34,4 +36,12 @@ const orientaciones = {
 let pulsaciones = [];
 let entrada = entradas.pulsaciones;
 let escaladoMinimo = 1;
-let nivelActual = 0;
+
+let nivelActual = {
+    x: 1,
+    y: 0
+};
+let nivelMaximo = {
+    x: 1,
+    y: 1
+};

@@ -9,6 +9,7 @@ class Jugador extends Modelo {
         };
         this.vx = 0;
         this.vy = 0;
+        this.gravedad = gravedadModulo;
 
         // Animaciones
         this.aDerecha = new Animacion(imagenes.jugador_derecha, this.ancho, this.alto, 30, 1);
@@ -17,9 +18,17 @@ class Jugador extends Modelo {
         this.aIzquierdaInversa = new Animacion(imagenes.jugador_izquierda_reves, this.ancho, this.alto, 30, 1);
 
         this.animacion = this.aDerecha;
+
+        this.tiempoEsperaSalto = 0;
+        this.esperaSalto = 0;
     }
 
     actualizar() {
+        if (this.estado === estados.saltando)
+            this.esperaSalto = this.tiempoEsperaSalto;
+        else if (this.esperaSalto > 0)
+            this.esperaSalto--;
+
         // ESTADOS
         if (this.vy !== 0)
             this.estado = estados.saltando;
@@ -92,20 +101,18 @@ class Jugador extends Modelo {
     }
 
     moverX(direccion) {
-        this.vx = direccion * 5;
+        this.vx = direccion * 5; // TODO Añadir inercia y aceleración
     }
 
     invertirGravedad() {
-        if (this.estado !== estados.saltando) {
+        if (this.estado !== estados.saltando && this.esperaSalto === 0) {
+            this.gravedad = -this.gravedad;
             this.estado = estados.saltando;
             if (this.orientacion.y === orientaciones.y.normal)
                 this.orientacion.y = orientaciones.y.inversa;
             else
                 this.orientacion.y = orientaciones.y.normal;
-
-            return true
-        } else
-            return false;
+        }
     }
 
     morir() {

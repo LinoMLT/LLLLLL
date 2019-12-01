@@ -1,13 +1,13 @@
 class Espacio {
 
-    constructor(gravedad) {
-        this.gravedad = gravedad;
+    constructor() {
+        this.gravedad = gravedadModulo;
         this.dinamicos = [];
         this.estaticos = [];
     }
 
     invertirGravedad() {
-        this.gravedad = -this.gravedad;
+        this.gravedad *= -1;
     }
 
     agregarCuerpoDinamico(modelo) {
@@ -19,7 +19,7 @@ class Espacio {
     }
 
     eliminarCuerpoDinamico(modelo) {
-        for (var i = 0; i < this.dinamicos.length; i++) {
+        for (let i = 0; i < this.dinamicos.length; i++) {
             if (this.dinamicos[i] === modelo) {
                 this.dinamicos.splice(i, 1);
             }
@@ -27,7 +27,7 @@ class Espacio {
     }
 
     eliminarCuerpoEstatico(modelo) {
-        for (var i = 0; i < this.estaticos.length; i++) {
+        for (let i = 0; i < this.estaticos.length; i++) {
             if (this.estaticos[i] === modelo) {
                 this.estaticos.splice(i, 1);
             }
@@ -36,15 +36,6 @@ class Espacio {
 
     actualizar() {
         for (let i = 0; i < this.dinamicos.length; i++) {
-            // aplicar gravedad ( dinamicos)
-            this.dinamicos[i].vy = this.dinamicos[i].vy + this.gravedad;
-
-            // maxima velocidad de caida por gravedad
-            if (this.dinamicos[i].vy > 10)
-                this.dinamicos[i].vy = 10;
-            else if (this.dinamicos[i].vy < -10)
-                this.dinamicos[i].vy = -10;
-
             // reiniciar choques
             this.dinamicos[i].choqueAbajo = false;
 
@@ -58,7 +49,7 @@ class Espacio {
 
     moverDerecha(i) {
         if (this.dinamicos[i].vx > 0) {
-            var movimientoPosible = this.dinamicos[i].vx;
+            let movimientoPosible = this.dinamicos[i].vx;
             // El mejor "idealmente" vx partimos de ese
 
             for (let j = 0; j < this.estaticos.length; j++) {
