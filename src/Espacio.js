@@ -2,8 +2,8 @@ class Espacio {
 
     constructor() {
         this.gravedad = gravedadModulo;
-        this.dinamicos = [];
-        this.estaticos = [];
+        this.dinamicos = []; // Se mueven
+        this.bloqueantes = []; // Bloquean el movimiento a los demás elementos
     }
 
     invertirGravedad() {
@@ -14,8 +14,8 @@ class Espacio {
         this.dinamicos.push(modelo);
     }
 
-    agregarCuerpoEstatico(modelo) {
-        this.estaticos.push(modelo);
+    agregarCuerpoBloqueante(modelo) {
+        this.bloqueantes.push(modelo);
     }
 
     eliminarCuerpoDinamico(modelo) {
@@ -26,10 +26,10 @@ class Espacio {
         }
     }
 
-    eliminarCuerpoEstatico(modelo) {
-        for (let i = 0; i < this.estaticos.length; i++) {
-            if (this.estaticos[i] === modelo) {
-                this.estaticos.splice(i, 1);
+    eliminarCuerpoBloqueante(modelo) {
+        for (let i = 0; i < this.bloqueantes.length; i++) {
+            if (this.bloqueantes[i] === modelo) {
+                this.bloqueantes.splice(i, 1);
             }
         }
     }
@@ -52,38 +52,43 @@ class Espacio {
             let movimientoPosible = this.dinamicos[i].vx;
             // El mejor "idealmente" vx partimos de ese
 
-            for (let j = 0; j < this.estaticos.length; j++) {
-                let derechaDinamico
-                    = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
-                let arribaDinamico
-                    = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
-                let abajoDinamico
-                    = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
-                let izquierdaEstatico
-                    = this.estaticos[j].x - this.estaticos[j].ancho / 2;
-                let arribaEstatico
-                    = this.estaticos[j].y - this.estaticos[j].alto / 2;
-                let abajoEstatico
-                    = this.estaticos[j].y + this.estaticos[j].alto / 2;
+            for (let j = 0; j < this.bloqueantes.length; j++) {
+                if (this.dinamicos[i] === this.bloqueantes[j])
+                    continue; // Para que las plataformas móviles no se bloqueen a sí mismas
 
-                // Alerta!, Elemento estático en la trayectoria.
-                if ((derechaDinamico + this.dinamicos[i].vx) >= izquierdaEstatico
-                    && derechaDinamico <= izquierdaEstatico
-                    && arribaEstatico < abajoDinamico
-                    && abajoEstatico > arribaDinamico) {
+                let derechaDinamico = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
+                let arribaDinamico = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
+                let abajoDinamico = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
+                let izquierdaBloqueante = this.bloqueantes[j].x - this.bloqueantes[j].ancho / 2;
+                let arribaBloqueante = this.bloqueantes[j].y - this.bloqueantes[j].alto / 2;
+                let abajoBloqueante = this.bloqueantes[j].y + this.bloqueantes[j].alto / 2;
+
+                // Alerta! Elemento bloquenate en la trayectoria.
+                if ((derechaDinamico + this.dinamicos[i].vx) >= izquierdaBloqueante
+                    && derechaDinamico <= izquierdaBloqueante
+                    && arribaBloqueante < abajoDinamico
+                    && abajoBloqueante > arribaDinamico) {
 
                     // Comprobamos si la distancia al estático es menor
                     // que nuestro movimientoPosible actual
-                    if (movimientoPosible >= izquierdaEstatico - derechaDinamico) {
+                    if (movimientoPosible >= izquierdaBloqueante - derechaDinamico) {
                         // La distancia es MENOR que nuestro movimiento posible
                         // Tenemos que actualizar el movimiento posible a uno menor
-                        movimientoPosible = izquierdaEstatico - derechaDinamico;
+                        movimientoPosible = izquierdaBloqueante - derechaDinamico;
                     }
 
                 }
             }
+
+            if (!(this.dinamicos[i] instanceof Jugador)) {
+                let derechaDinamico = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
+                if (derechaDinamico + movimientoPosible > anchoNativo) {
+                    movimientoPosible = anchoNativo - derechaDinamico;
+                }
+            }
+
             // Ya se han comprobado todos los estáticos
-            this.dinamicos[i].x = this.dinamicos[i].x + movimientoPosible;
+            this.dinamicos[i].x += movimientoPosible;
             this.dinamicos[i].vx = movimientoPosible;
         }
     }
@@ -94,38 +99,43 @@ class Espacio {
             let movimientoPosible = this.dinamicos[i].vx;
             // El mejor "idealmente" vx partimos de ese
 
-            for (let j = 0; j < this.estaticos.length; j++) {
-                let izquierdaDinamico
-                    = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
-                let arribaDinamico
-                    = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
-                let abajoDinamico
-                    = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
-                let derechaEstatico
-                    = this.estaticos[j].x + this.estaticos[j].ancho / 2;
-                let arribaEstatico
-                    = this.estaticos[j].y - this.estaticos[j].alto / 2;
-                let abajoEstatico
-                    = this.estaticos[j].y + this.estaticos[j].alto / 2;
+            for (let j = 0; j < this.bloqueantes.length; j++) {
+                if (this.dinamicos[i] === this.bloqueantes[j])
+                    continue; // Para que las plataformas móviles no se bloqueen a sí mismas
+
+                let izquierdaDinamico = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
+                let arribaDinamico = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
+                let abajoDinamico = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
+                let derechaBloqueante = this.bloqueantes[j].x + this.bloqueantes[j].ancho / 2;
+                let arribaBloqueante = this.bloqueantes[j].y - this.bloqueantes[j].alto / 2;
+                let abajoBloqueante = this.bloqueantes[j].y + this.bloqueantes[j].alto / 2;
 
                 // Alerta!, Elemento estático en la trayectoria.
-                if ((izquierdaDinamico + this.dinamicos[i].vx) <= derechaEstatico
-                    && izquierdaDinamico >= derechaEstatico
-                    && arribaEstatico < abajoDinamico
-                    && abajoEstatico > arribaDinamico) {
+                if ((izquierdaDinamico + this.dinamicos[i].vx) <= derechaBloqueante
+                    && izquierdaDinamico >= derechaBloqueante
+                    && arribaBloqueante < abajoDinamico
+                    && abajoBloqueante > arribaDinamico) {
 
                     // Comprobamos si la distancia al estático es mayor
                     // que nuestro movimientoPosible actual
-                    if (movimientoPosible <= derechaEstatico - izquierdaDinamico) {
+                    if (movimientoPosible <= derechaBloqueante - izquierdaDinamico) {
                         // La distancia es MAYOR que nuestro movimiento posible
                         // Tenemos que actualizar el movimiento posible a uno mayor
-                        movimientoPosible = derechaEstatico - izquierdaDinamico;
+                        movimientoPosible = derechaBloqueante - izquierdaDinamico;
                     }
 
                 }
             }
-            // Ya se han comprobado todos los estaticos
-            this.dinamicos[i].x = this.dinamicos[i].x + movimientoPosible;
+
+            if (!(this.dinamicos[i] instanceof Jugador)) {
+                let izquierdaDinamico = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
+                if (izquierdaDinamico + movimientoPosible < 0) {
+                    movimientoPosible = -izquierdaDinamico;
+                }
+            }
+
+            // Ya se han comprobado todos los bloqueantes
+            this.dinamicos[i].x += movimientoPosible;
             this.dinamicos[i].vx = movimientoPosible;
         }
     }
@@ -135,42 +145,45 @@ class Espacio {
             let movimientoPosible = this.dinamicos[i].vy;
             // El mejor "idealmente" es la velocidad vy.
 
-            for (let j = 0; j < this.estaticos.length; j++) {
-                let arribaDinamico
-                    = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
-                let abajoDinamico
-                    = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
-                let derechaDinamico
-                    = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
-                let izquierdaDinamico
-                    = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
-                let arribaEstatico
-                    = this.estaticos[j].y - this.estaticos[j].alto / 2;
-                let abajoEstatico
-                    = this.estaticos[j].y + this.estaticos[j].alto / 2;
-                let derechaEstatico
-                    = this.estaticos[j].x + this.estaticos[j].ancho / 2;
-                let izquierdaEstatico
-                    = this.estaticos[j].x - this.estaticos[j].ancho / 2;
+            for (let j = 0; j < this.bloqueantes.length; j++) {
+                if (this.dinamicos[i] === this.bloqueantes[j])
+                    continue; // Para que las plataformas móviles no se bloqueen a sí mismas
+
+                let arribaDinamico = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
+                let abajoDinamico = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
+                let derechaDinamico = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
+                let izquierdaDinamico = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
+                let arribaBloqueante = this.bloqueantes[j].y - this.bloqueantes[j].alto / 2;
+                let abajoBloqueante = this.bloqueantes[j].y + this.bloqueantes[j].alto / 2;
+                let derechaBloqueante = this.bloqueantes[j].x + this.bloqueantes[j].ancho / 2;
+                let izquierdaBloqueante = this.bloqueantes[j].x - this.bloqueantes[j].ancho / 2;
 
                 // Alerta!, Elemento estático en la trayectoria.
-                if ((abajoDinamico + this.dinamicos[i].vy) >= arribaEstatico &&
-                    arribaDinamico < abajoEstatico
-                    && izquierdaDinamico < derechaEstatico
-                    && derechaDinamico > izquierdaEstatico) {
+                if ((abajoDinamico + this.dinamicos[i].vy) >= arribaBloqueante &&
+                    arribaDinamico < abajoBloqueante
+                    && izquierdaDinamico < derechaBloqueante
+                    && derechaDinamico > izquierdaBloqueante) {
 
                     // Comprobamos si la distancia al estático es menor
                     // que nuestro movimientoPosible actual
-                    if (movimientoPosible >= arribaEstatico - abajoDinamico) {
+                    if (movimientoPosible >= arribaBloqueante - abajoDinamico) {
                         // La distancia es MENOR que nuestro movimiento posible
                         // Tenemos que actualizar el movimiento posible a uno menor
-                        movimientoPosible = arribaEstatico - abajoDinamico;
+                        movimientoPosible = arribaBloqueante - abajoDinamico;
                         this.dinamicos[i].choqueAbajo = true;
                     }
                 }
             }
+
+            if (!(this.dinamicos[i] instanceof Jugador)) {
+                let abajoDinamico = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
+                if (abajoDinamico + movimientoPosible > altoNativo) {
+                    movimientoPosible = altoNativo - abajoDinamico;
+                }
+            }
+
             // Ya se han comprobado todos los estáticos
-            this.dinamicos[i].y = this.dinamicos[i].y + movimientoPosible;
+            this.dinamicos[i].y += movimientoPosible;
             this.dinamicos[i].vy = movimientoPosible;
         }
     }
@@ -180,41 +193,44 @@ class Espacio {
             let movimientoPosible = this.dinamicos[i].vy;
             // El mejor "idealmente" es la velocidad vy.
 
-            for (let j = 0; j < this.estaticos.length; j++) {
-                let arribaDinamico
-                    = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
-                let abajoDinamico
-                    = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
-                let derechaDinamico
-                    = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
-                let izquierdaDinamico
-                    = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
-                let arribaEstatico
-                    = this.estaticos[j].y - this.estaticos[j].alto / 2;
-                let abajoEstatico
-                    = this.estaticos[j].y + this.estaticos[j].alto / 2;
-                let derechaEstatico
-                    = this.estaticos[j].x + this.estaticos[j].ancho / 2;
-                let izquierdaEstatico
-                    = this.estaticos[j].x - this.estaticos[j].ancho / 2;
+            for (let j = 0; j < this.bloqueantes.length; j++) {
+                if (this.dinamicos[i] === this.bloqueantes[j])
+                    continue; // Para que las plataformas móviles no se bloqueen a sí mismas
 
-                // Alerta!, Elemento estático en la trayectoria
-                if ((arribaDinamico + this.dinamicos[i].vy) <= abajoEstatico &&
-                    abajoDinamico > arribaEstatico
-                    && izquierdaDinamico < derechaEstatico
-                    && derechaDinamico > izquierdaEstatico) {
+                let arribaDinamico = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
+                let abajoDinamico = this.dinamicos[i].y + this.dinamicos[i].alto / 2;
+                let derechaDinamico = this.dinamicos[i].x + this.dinamicos[i].ancho / 2;
+                let izquierdaDinamico = this.dinamicos[i].x - this.dinamicos[i].ancho / 2;
+                let arribaBloqueante = this.bloqueantes[j].y - this.bloqueantes[j].alto / 2;
+                let abajoBloqueante = this.bloqueantes[j].y + this.bloqueantes[j].alto / 2;
+                let derechaBloqueante = this.bloqueantes[j].x + this.bloqueantes[j].ancho / 2;
+                let izquierdaBloqueante = this.bloqueantes[j].x - this.bloqueantes[j].ancho / 2;
+
+                // Alerta!, Elemento bloqueante en la trayectoria
+                if ((arribaDinamico + this.dinamicos[i].vy) <= abajoBloqueante &&
+                    abajoDinamico > arribaBloqueante
+                    && izquierdaDinamico < derechaBloqueante
+                    && derechaDinamico > izquierdaBloqueante) {
 
                     // Comprobamos si la distancia al estático es MAYOR
                     // que nuestro movimientoPosible actual
-                    if (movimientoPosible <= abajoEstatico - arribaDinamico) {
+                    if (movimientoPosible <= abajoBloqueante - arribaDinamico) {
                         // La distancia es MAYOR que nuestro movimiento posible
                         // Tenemos que actualizar el movimiento posible a uno mayor
 
-                        movimientoPosible = abajoEstatico - arribaDinamico;
+                        movimientoPosible = abajoBloqueante - arribaDinamico;
                     }
                 }
             }
-            this.dinamicos[i].y = this.dinamicos[i].y + movimientoPosible;
+
+            if (!(this.dinamicos[i] instanceof Jugador)) {
+                let arribaDinamico = this.dinamicos[i].y - this.dinamicos[i].alto / 2;
+                if (arribaDinamico + movimientoPosible < 0) {
+                    movimientoPosible = -arribaDinamico;
+                }
+            }
+
+            this.dinamicos[i].y += movimientoPosible;
             this.dinamicos[i].vy = movimientoPosible;
         }
     }

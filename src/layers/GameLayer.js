@@ -155,7 +155,7 @@ class GameLayer extends Layer {
                 bloqueBorde.x += bloqueBorde.ancho / 2;
                 bloqueBorde.y += bloqueBorde.alto / 2;
                 this.bloques.push(bloqueBorde);
-                this.espacio.agregarCuerpoEstatico(bloqueBorde);
+                this.espacio.agregarCuerpoBloqueante(bloqueBorde);
                 break;
         }
     }

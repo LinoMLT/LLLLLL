@@ -18,6 +18,7 @@ let imagenes = {
     deslizante_derecha: "res/deslizante_derecha.png",
     inversor_horizontal: "res/inversor_horizontal.png",
     pincho: "res/pincho.png",
+    enemigo: "res/enemigo.png",
 
     pad: "res/pad.png",
     boton_disparo: "res/boton_disparo.png",
