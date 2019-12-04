@@ -206,10 +206,28 @@ class GameLayer extends Layer {
                 this.bloques.push(bloqueFondo);
                 break;
             case "P":
-                let pincho = new Bloque(imagenes.pincho, x, y);
-                pincho.x += pincho.ancho / 2;
-                pincho.y += pincho.alto / 2;
-                this.pinchos.push(pincho);
+                let pinchoDer = new Bloque(imagenes.pincho_derecha, x, y);
+                pinchoDer.x += pinchoDer.ancho / 2;
+                pinchoDer.y += pinchoDer.alto / 2;
+                this.pinchos.push(pinchoDer);
+                break;
+            case "p":
+                let pinchoIz = new Bloque(imagenes.pincho_izquierda, x, y);
+                pinchoIz.x += pinchoIz.ancho / 2;
+                pinchoIz.y += pinchoIz.alto / 2;
+                this.pinchos.push(pinchoIz);
+                break;
+            case "R":
+                let pinchoAba = new Bloque(imagenes.pincho_abajo, x, y);
+                pinchoAba.x += pinchoAba.ancho / 2;
+                pinchoAba.y += pinchoAba.alto / 2;
+                this.pinchos.push(pinchoAba);
+                break;
+            case "r":
+                let pinchoAr = new Bloque(imagenes.pincho_arriba, x, y);
+                pinchoAr.x += pinchoAr.ancho / 2;
+                pinchoAr.y += pinchoAr.alto / 2;
+                this.pinchos.push(pinchoAr);
                 break;
             case "J":
                 if (this.jugador == null) {

@@ -47,7 +47,8 @@ function resize() {
     let escaladoAncho = parseFloat(window.innerWidth / canvas.width);
     let escaladoAlto = parseFloat(window.innerHeight / canvas.height);
 
-    escaladoMinimo = Math.trunc(Math.min(escaladoAncho, escaladoAlto));
+    // escaladoMinimo = Math.trunc(Math.min(escaladoAncho, escaladoAlto));
+    escaladoMinimo = Math.min(escaladoAncho, escaladoAlto);
 
     canvas.width = canvas.width * escaladoMinimo;
     canvas.height = canvas.height * escaladoMinimo;

@@ -21,7 +21,10 @@ let imagenes = {
     checkpoint_inactivo_reves: "res/checkpoint_inactivo_reves.png",
     deslizante_derecha: "res/deslizante_derecha.png",
     inversor_horizontal: "res/inversor_horizontal.png",
-    pincho: "res/pincho.png",
+    pincho_derecha: "res/pincho_derecha.png",
+    pincho_izquierda: "res/pincho_izquierda.png",
+    pincho_abajo: "res/pincho_abajo.png",
+    pincho_arriba: "res/pincho_arriba.png",
     enemigo1: "res/enemigo_1.png",
     enemigo1Animacion: "res/enemigo_1_animacion.png",
 
