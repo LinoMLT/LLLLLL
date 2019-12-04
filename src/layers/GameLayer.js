@@ -26,9 +26,12 @@ class GameLayer extends Layer {
         this.bloques = [];
         this.pinchos = [];
         this.enemigos = [];
+        this.checkpoints = [];
 
         this.cargarMapa("res/" + nivelX + "_" + nivelY + ".txt");
         this.espacio.agregarCuerpoDinamico(this.jugador);
+        console.log("Último guardado", this.ultimoGuardado.nivel);
+        console.log("Orientación", this.ultimoGuardado.orientacion);
     }
 
     actualizar() {
@@ -76,16 +79,46 @@ class GameLayer extends Layer {
         }
 
         for (let i = 0; i < this.enemigos.length; i++) {
-            this.enemigos[i].actualizar();
-        }
-
-        for (let i = 0; i < this.enemigos.length; i++) {
             if (this.jugador.colisiona(this.enemigos[i])) {
                 this.espacio.congelar();
-                // this.espacio.eliminarCuerpoDinamico(this.jugador);
                 this.jugador.morir();
             }
         }
+
+        for (let i = 0; i < this.checkpoints.length; i++) {
+            if (this.jugador.colisiona(this.checkpoints[i]) && !this.checkpoints[i].activo) {
+                this.ultimoGuardado = {
+                    nivel: {
+                        x: this.nivelActual.x,
+                        y: this.nivelActual.y
+                    },
+                    x: this.checkpoints[i].x,
+                    y: this.jugador.y,
+                    orientacion: {
+                        x: this.jugador.orientacion.x,
+                        y: this.checkpoints[i].orientacion
+                    }
+                };
+                this.activarCheckpoint(this.checkpoints[i]);
+                console.log("Último guardado", this.ultimoGuardado.nivel);
+                console.log("Orientación", this.ultimoGuardado.orientacion);
+            }
+        }
+
+        for (let i = 0; i < this.enemigos.length; i++) {
+            this.enemigos[i].actualizar();
+        }
+
+        for (let i = 0; i < this.checkpoints.length; i++) {
+            this.checkpoints[i].actualizar();
+        }
+    }
+
+    activarCheckpoint(checkpoint) {
+        for (let i = 0; i < this.checkpoints.length; i++) {
+            this.checkpoints[i].activo = false;
+        }
+        checkpoint.activo = true;
     }
 
     dibujar() {
@@ -99,6 +132,10 @@ class GameLayer extends Layer {
         }
         for (let i = 0; i < this.enemigos.length; i++) {
             this.enemigos[i].dibujar();
+        }
+
+        for (let i = 0; i < this.checkpoints.length; i++) {
+            this.checkpoints[i].dibujar();
         }
 
         this.jugador.dibujar();
@@ -204,6 +241,19 @@ class GameLayer extends Layer {
                 this.enemigos.push(enemigo);
                 this.espacio.agregarCuerpoDinamico(enemigo);
                 break;
+            case "C":
+                let checkpoint = new Checkpoint(x, y, orientaciones.y.normal);
+                checkpoint.x += checkpoint.ancho / 2;
+                checkpoint.y += checkpoint.alto / 2;
+                this.checkpoints.push(checkpoint);
+                break;
+            case "c":
+                let checkpointInv = new Checkpoint(x, y, orientaciones.y.inversa);
+                checkpointInv.x += checkpointInv.ancho / 2;
+                checkpointInv.y += checkpointInv.alto / 2;
+                this.checkpoints.push(checkpointInv);
+                break;
+            // TODO Checkpoint invertido
         }
     }
 
