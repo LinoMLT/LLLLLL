@@ -76,7 +76,6 @@ class Espacio {
                         // Tenemos que actualizar el movimiento posible a uno menor
                         movimientoPosible = izquierdaBloqueante - derechaDinamico;
                     }
-
                 }
             }
 

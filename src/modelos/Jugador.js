@@ -9,33 +9,45 @@ class Jugador extends Modelo {
         };
         this.vx = 0;
         this.vy = 0;
-        this.gravedad = gravedadModulo;
 
         // Animaciones
         this.aDerecha = new Animacion(imagenes.jugador_derecha, this.ancho, this.alto, 30, 1);
         this.aDerechaInversa = new Animacion(imagenes.jugador_derecha_reves, this.ancho, this.alto, 30, 1);
         this.aIzquierda = new Animacion(imagenes.jugador_izquierda, this.ancho, this.alto, 30, 1);
         this.aIzquierdaInversa = new Animacion(imagenes.jugador_izquierda_reves, this.ancho, this.alto, 30, 1);
+        this.aDerechaMuerte = new Animacion(imagenes.jugador_derecha_muerte, this.ancho, this.alto, 4, 10, this.finAnimacionMuriendo.bind(this));
+        this.aDerechaInversaMuerte = new Animacion(imagenes.jugador_derecha_reves_muerte, this.ancho, this.alto, 4, 10, this.finAnimacionMuriendo.bind(this));
+        this.aIzquierdaMuerte = new Animacion(imagenes.jugador_izquierda_muerte, this.ancho, this.alto, 4, 10, this.finAnimacionMuriendo.bind(this));
+        this.aIzquierdaInversaMuerte = new Animacion(imagenes.jugador_izquierda_reves_muerte, this.ancho, this.alto, 4, 10, this.finAnimacionMuriendo.bind(this));
 
         this.animacion = this.aDerecha;
 
-        this.tiempoEsperaSalto = 0;
+        this.tiempoEsperaSalto = 2;
         this.esperaSalto = 0;
     }
 
     actualizar() {
+        if (this.estado === estados.muriendo) {
+            this.vx = 0;
+            this.vy = 0;
+        }
+
+        // TEMPORAL
         if (this.estado === estados.saltando)
             this.esperaSalto = this.tiempoEsperaSalto;
         else if (this.esperaSalto > 0)
             this.esperaSalto--;
 
         // ESTADOS
-        if (this.vy !== 0)
-            this.estado = estados.saltando;
-        else if (this.vx !== 0) {
-            this.estado = estados.corriendo;
-        } else
-            this.estado = estados.quieto;
+        if (this.estado !== estados.muriendo) {
+            if (this.vy !== 0)
+                this.estado = estados.saltando;
+            else if (this.vx !== 0) {
+                this.estado = estados.corriendo;
+            } else
+                this.estado = estados.quieto;
+        }
+
 
         // ORIENTACIÓN
         if (this.vx > 0)
@@ -90,6 +102,21 @@ class Jugador extends Modelo {
                     }
                 }
                 break;
+            case estados.muriendo:
+                if (this.orientacion.x === orientaciones.x.derecha) {
+                    if (this.orientacion.y === orientaciones.y.normal) {
+                        this.animacion = this.aDerechaMuerte;
+                    } else if (this.orientacion.y === orientaciones.y.inversa) {
+                        this.animacion = this.aDerechaInversaMuerte
+                    }
+                } else if (this.orientacion.x === orientaciones.x.izquierda) {
+                    if (this.orientacion.y === orientaciones.y.normal) {
+                        this.animacion = this.aIzquierdaMuerte;
+                    } else if (this.orientacion.y === orientaciones.y.inversa) {
+                        this.animacion = this.aIzquierdaInversaMuerte;
+                    }
+                }
+                break;
         }
         this.animacion.actualizar();
     }
@@ -103,8 +130,7 @@ class Jugador extends Modelo {
     }
 
     invertirGravedad() {
-        if (this.estado !== estados.saltando && this.esperaSalto === 0) {
-            this.gravedad = -this.gravedad;
+        if (this.estado !== estados.muriendo && this.estado !== estados.saltando && this.esperaSalto === 0) {
             this.estado = estados.saltando;
             if (this.orientacion.y === orientaciones.y.normal)
                 this.orientacion.y = orientaciones.y.inversa;
@@ -113,8 +139,16 @@ class Jugador extends Modelo {
         }
     }
 
-    morir() {
+    getGravedad() {
+        return this.orientacion.y * gravedadModulo;
+    }
 
+    finAnimacionMuriendo() {
+        this.estado = estados.muerto;
+    }
+
+    morir() {
+        this.estado = estados.muriendo;
     }
 
 }

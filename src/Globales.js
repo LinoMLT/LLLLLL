@@ -18,30 +18,30 @@ const estados = {
     quieto: 1,
     corriendo: 2,
     saltando: 3,
-    mueriendo: 4,
+    muriendo: 4,
     muerto: 5
 };
 
 const orientaciones = {
     x: {
         derecha: 1,
-        izquierda: 2
+        izquierda: -1
     },
     y: {
         normal: 1,
-        inversa: 2
+        inversa: -1
     }
+};
+
+const nivelInicial = {
+    x: 0,
+    y: 0
+};
+const nivelMaximo = {
+    x: 1,
+    y: 1
 };
 
 let pulsaciones = [];
 let entrada = entradas.pulsaciones;
 let escaladoMinimo = 1;
-
-let nivelActual = {
-    x: 0,
-    y: 0
-};
-let nivelMaximo = {
-    x: 1,
-    y: 1
-};
