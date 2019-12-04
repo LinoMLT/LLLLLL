@@ -116,9 +116,9 @@ class GameLayer extends Layer {
 
     activarCheckpoint(checkpoint) {
         for (let i = 0; i < this.checkpoints.length; i++) {
-            this.checkpoints[i].activo = false;
+            this.checkpoints[i].desactivar();
         }
-        checkpoint.activo = true;
+        checkpoint.activar();
     }
 
     dibujar() {

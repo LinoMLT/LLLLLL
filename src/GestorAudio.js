@@ -3,7 +3,9 @@ cancion.loop = true;
 
 let efectos = {
     muerte: "res/efecto_muerte.mp3",
-    // explosion: "res/efecto_explosion.mp3",
+    salto1: "res/salto_1.wav",
+    salto2: "res/salto_2.wav",
+    checkpoint: "res/checkpoint.wav"
 };
 
 function reproducirMusica() {

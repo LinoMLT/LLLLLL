@@ -17,6 +17,15 @@ class Checkpoint extends Modelo {
             this.animacion = this.aActivoInverso;
     }
 
+    activar() {
+        this.activo = true;
+        reproducirEfecto(efectos.checkpoint);
+    }
+
+    desactivar() {
+        this.activo = false;
+    }
+
     actualizar() {
         this.animacion.actualizar();
         if (this.activo) {

@@ -132,10 +132,14 @@ class Jugador extends Modelo {
     invertirGravedad() {
         if (this.estado !== estados.muriendo && this.estado !== estados.saltando && this.esperaSalto === 0) {
             this.estado = estados.saltando;
-            if (this.orientacion.y === orientaciones.y.normal)
+            if (this.orientacion.y === orientaciones.y.normal) {
                 this.orientacion.y = orientaciones.y.inversa;
-            else
+                reproducirEfecto(efectos.salto1);
+            } else {
                 this.orientacion.y = orientaciones.y.normal;
+                reproducirEfecto(efectos.salto2);
+            }
+
         }
     }
 
