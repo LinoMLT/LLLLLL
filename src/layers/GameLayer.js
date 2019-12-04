@@ -50,6 +50,7 @@ class GameLayer extends Layer {
         this.jugador.actualizar();
 
         if (this.jugador.estado === estados.muerto) {
+            this.espacio.descongelar();
             this.jugador.estado = estados.quieto;
             this.jugador.vx = 0;
             this.jugador.vy = 0;
@@ -68,17 +69,23 @@ class GameLayer extends Layer {
         // colisiones
         for (let i = 0; i < this.pinchos.length; i++) {
             if (this.jugador.colisiona(this.pinchos[i])) {
-                this.espacio.eliminarCuerpoDinamico(this.jugador);
+                this.espacio.congelar();
+                // this.espacio.eliminarCuerpoDinamico(this.jugador);
                 this.jugador.morir();
             }
         }
 
-        // for (let i = 0; i < this.enemigos.length; i++) {
-        //     if (this.jugador.colisiona(this.enemigos[i])) {
-        //         this.jugador.morir();
-        //         this.iniciarNivelActual();
-        //     }
-        // }
+        for (let i = 0; i < this.enemigos.length; i++) {
+            this.enemigos[i].actualizar();
+        }
+
+        for (let i = 0; i < this.enemigos.length; i++) {
+            if (this.jugador.colisiona(this.enemigos[i])) {
+                this.espacio.congelar();
+                // this.espacio.eliminarCuerpoDinamico(this.jugador);
+                this.jugador.morir();
+            }
+        }
     }
 
     dibujar() {
@@ -189,6 +196,13 @@ class GameLayer extends Layer {
                 bloqueBorde.y += bloqueBorde.alto / 2;
                 this.bloques.push(bloqueBorde);
                 this.espacio.agregarCuerpoBloqueante(bloqueBorde);
+                break;
+            case "E":
+                let enemigo = new Enemigo(x, y, sentidoMov.abajo);
+                enemigo.x += enemigo.ancho / 2;
+                enemigo.y += enemigo.alto / 2;
+                this.enemigos.push(enemigo);
+                this.espacio.agregarCuerpoDinamico(enemigo);
                 break;
         }
     }

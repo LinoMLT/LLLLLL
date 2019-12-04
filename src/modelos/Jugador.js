@@ -140,7 +140,10 @@ class Jugador extends Modelo {
     }
 
     getGravedad() {
-        return this.orientacion.y * gravedadModulo;
+        if (this.orientacion.y === orientaciones.y.normal)
+            return gravedadModulo;
+        else
+            return -gravedadModulo
     }
 
     finAnimacionMuriendo() {

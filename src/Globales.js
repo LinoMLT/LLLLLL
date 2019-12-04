@@ -2,6 +2,7 @@ const anchoNativo = 320;
 const altoNativo = 240;
 
 const gravedadModulo = 5;
+const velocidadEnemigos = 4;
 
 const entradas = {
     pulsaciones: 1,
@@ -25,12 +26,19 @@ const estados = {
 const orientaciones = {
     x: {
         derecha: 1,
-        izquierda: -1
+        izquierda: 2
     },
     y: {
-        normal: 1,
-        inversa: -1
+        normal: 3,
+        inversa: 4
     }
+};
+
+const sentidoMov = {
+    izquierda: 1,
+    derecha: 2,
+    arriba: 3,
+    abajo: 4
 };
 
 const nivelInicial = {

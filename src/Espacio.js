@@ -4,10 +4,19 @@ class Espacio {
         this.gravedad = gravedadModulo;
         this.dinamicos = []; // Se mueven
         this.bloqueantes = []; // Bloquean el movimiento a los demás elementos
+        this.congelado = false;
     }
 
     invertirGravedad() {
         this.gravedad *= -1;
+    }
+
+    congelar() {
+        this.congelado = true;
+    }
+
+    descongelar() {
+        this.congelado = false;
     }
 
     agregarCuerpoDinamico(modelo) {
@@ -35,6 +44,9 @@ class Espacio {
     }
 
     actualizar() {
+        if (this.congelado)
+            return;
+
         for (let i = 0; i < this.dinamicos.length; i++) {
             // reiniciar choques
             this.dinamicos[i].choqueAbajo = false;
