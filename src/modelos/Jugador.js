@@ -15,10 +15,10 @@ class Jugador extends Modelo {
         this.aDerechaInversa = new Animacion(imagenes.jugador_derecha_reves, this.ancho, this.alto, 30, 1);
         this.aIzquierda = new Animacion(imagenes.jugador_izquierda, this.ancho, this.alto, 30, 1);
         this.aIzquierdaInversa = new Animacion(imagenes.jugador_izquierda_reves, this.ancho, this.alto, 30, 1);
-        this.aDerechaMuerte = new Animacion(imagenes.jugador_derecha_muerte, this.ancho, this.alto, 4, 10, this.finAnimacionMuriendo.bind(this));
-        this.aDerechaInversaMuerte = new Animacion(imagenes.jugador_derecha_reves_muerte, this.ancho, this.alto, 4, 10, this.finAnimacionMuriendo.bind(this));
-        this.aIzquierdaMuerte = new Animacion(imagenes.jugador_izquierda_muerte, this.ancho, this.alto, 4, 10, this.finAnimacionMuriendo.bind(this));
-        this.aIzquierdaInversaMuerte = new Animacion(imagenes.jugador_izquierda_reves_muerte, this.ancho, this.alto, 4, 10, this.finAnimacionMuriendo.bind(this));
+        this.aDerechaMuerte = new Animacion(imagenes.jugador_derecha_muerte, this.ancho, this.alto, 2, 10, this.finAnimacionMuriendo.bind(this));
+        this.aDerechaInversaMuerte = new Animacion(imagenes.jugador_derecha_reves_muerte, this.ancho, this.alto, 2, 10, this.finAnimacionMuriendo.bind(this));
+        this.aIzquierdaMuerte = new Animacion(imagenes.jugador_izquierda_muerte, this.ancho, this.alto, 2, 10, this.finAnimacionMuriendo.bind(this));
+        this.aIzquierdaInversaMuerte = new Animacion(imagenes.jugador_izquierda_reves_muerte, this.ancho, this.alto, 2, 10, this.finAnimacionMuriendo.bind(this));
 
         this.animacion = this.aDerecha;
 

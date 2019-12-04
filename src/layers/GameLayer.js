@@ -7,7 +7,7 @@ class GameLayer extends Layer {
     }
 
     iniciar() {
-        // reproducirMusica();
+        reproducirMusica();
         this.botonSalto = new Boton(imagenes.boton_salto, anchoNativo * 0.9, altoNativo * 0.55);
         this.botonDisparo = new Boton(imagenes.boton_disparo, anchoNativo * 0.75, altoNativo * 0.83);
         this.pad = new Pad(anchoNativo * 0.14, altoNativo * 0.8);
@@ -245,33 +245,35 @@ class GameLayer extends Layer {
     }
 
     cambiarNivel() {
+        let siguienteNivel = this.nivelActual;
         if (this.jugador.fuera.arriba) {
-            this.nivelActual.y--;
+            siguienteNivel.y++;
             this.jugador.y = altoNativo - this.jugador.alto / 2;
         }
         if (this.jugador.fuera.abajo) {
-            this.nivelActual.y++;
+            siguienteNivel.y--;
             this.jugador.y = this.jugador.alto / 2;
         }
         if (this.jugador.fuera.izquierda) {
-            this.nivelActual.x--;
+            siguienteNivel.x--;
             this.jugador.x = anchoNativo - this.jugador.ancho / 2;
         }
         if (this.jugador.fuera.derecha) {
-            this.nivelActual.x++;
+            siguienteNivel.x++;
             this.jugador.x = this.jugador.ancho / 2;
         }
 
-        if (this.nivelActual.x > nivelMaximo.x)
-            this.nivelActual.x = 0;
-        else if (this.nivelActual.x < 0)
-            this.nivelActual.x = nivelMaximo.x;
-        if (this.nivelActual.y > nivelMaximo.y)
-            this.nivelActual.y = 0;
-        else if (this.nivelActual.y < 0)
-            this.nivelActual.y = nivelMaximo.y;
+        if (siguienteNivel.x > nivelMaximo.x)
+            siguienteNivel.x = 0;
+        else if (siguienteNivel.x < 0)
+            siguienteNivel.x = nivelMaximo.x;
+        if (siguienteNivel.y > nivelMaximo.y)
+            siguienteNivel.y = 0;
+        else if (siguienteNivel.y < 0)
+            siguienteNivel.y = nivelMaximo.y;
 
-        this.iniciarNivel(this.nivelActual.x, this.nivelActual.y);
+        console.log(siguienteNivel);
+        this.iniciarNivel(siguienteNivel.x, siguienteNivel.y);
     }
 
 }

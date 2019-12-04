@@ -38,8 +38,8 @@ const nivelInicial = {
     y: 0
 };
 const nivelMaximo = {
-    x: 1,
-    y: 1
+    x: 2,
+    y: 2
 };
 
 let pulsaciones = [];
