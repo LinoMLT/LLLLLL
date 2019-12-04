@@ -151,7 +151,10 @@ class Jugador extends Modelo {
     }
 
     morir() {
-        this.estado = estados.muriendo;
+        if (this.estado !== estados.muriendo) {
+            reproducirEfecto(efectos.muerte);
+            this.estado = estados.muriendo;
+        }
     }
 
 }

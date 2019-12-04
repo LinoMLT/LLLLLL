@@ -2,7 +2,7 @@ let cancion = new Audio("res/pushing_onwards.mp3");
 cancion.loop = true;
 
 let efectos = {
-    // disparo: "res/efecto_disparo.mp3",
+    muerte: "res/efecto_muerte.mp3",
     // explosion: "res/efecto_explosion.mp3",
 };
 
