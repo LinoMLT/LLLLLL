@@ -34,6 +34,7 @@ class GameLayer extends Layer {
         this.enemigos = [];
         this.checkpoints = [];
         this.plataformasTemporales = [];
+        this.tesoros = [];
 
         this.cargarMapa("res/" + nivelX + "_" + nivelY + ".txt");
         this.espacio.agregarCuerpoDinamico(this.jugador);
@@ -120,6 +121,14 @@ class GameLayer extends Layer {
             }
         }
 
+        for (let i = 0; i < this.tesoros.length; i++) {
+            this.tesoros[i].actualizar();
+            if (this.jugador.colisiona(this.tesoros[i])) {
+                this.jugador.cogerTesoro(this.tesoros[i]);
+                this.tesoros.splice(i, 1);
+            }
+        }
+
         for (let i = 0; i < this.enemigos.length; i++) {
             this.enemigos[i].actualizar();
         }
@@ -165,6 +174,9 @@ class GameLayer extends Layer {
 
         for (let i = 0; i < this.plataformasTemporales.length; i++) {
             this.plataformasTemporales[i].dibujar();
+        }
+        for (let i = 0; i < this.tesoros.length; i++) {
+            this.tesoros[i].dibujar();
         }
 
         this.jugador.dibujar();
@@ -306,6 +318,18 @@ class GameLayer extends Layer {
                 plataformaTemporal.y += plataformaTemporal.alto / 2;
                 this.plataformasTemporales.push(plataformaTemporal);
                 this.espacio.agregarCuerpoBloqueante(plataformaTemporal);
+                break;
+            case "1":
+            case "2":
+            case "3":
+                if (this.jugador != null && !this.jugador.tesoros.includes(simbolo)) {
+                    let tesoro = new Tesoro(x, y, simbolo);
+                    tesoro.x += tesoro.ancho / 2;
+                    tesoro.y += tesoro.alto / 2;
+                    this.tesoros.push(tesoro);
+                }
+
+                break;
         }
     }
 

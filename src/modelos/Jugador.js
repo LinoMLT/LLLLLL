@@ -9,6 +9,7 @@ class Jugador extends Modelo {
         };
         this.vx = 0;
         this.vy = 0;
+        this.tesoros = [];
 
         // Animaciones
         this.aDerecha = new Animacion(imagenes.jugador_derecha, this.ancho, this.alto, 30, 1);
@@ -159,6 +160,11 @@ class Jugador extends Modelo {
             reproducirEfecto(efectos.muerte);
             this.estado = estados.muriendo;
         }
+    }
+
+    cogerTesoro(tesoro) {
+        reproducirEfecto(efectos.tesoro);
+        this.tesoros.push(tesoro.numero);
     }
 
     apoyadoEn(modelo) {
