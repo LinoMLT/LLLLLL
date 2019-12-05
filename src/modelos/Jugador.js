@@ -8,6 +8,7 @@ class Jugador extends Modelo {
             y: orientaciones.y.normal
         };
         this.vx = 0;
+        this.vxPropia = 0;
         this.vy = 0;
         this.tesoros = [];
 
@@ -43,16 +44,16 @@ class Jugador extends Modelo {
         if (this.estado !== estados.muriendo) {
             if (this.vy !== 0)
                 this.estado = estados.saltando;
-            else if (this.vx !== 0) {
+            else if (this.vxPropia !== 0) {
                 this.estado = estados.corriendo;
             } else
                 this.estado = estados.quieto;
         }
 
         // ORIENTACIÓN
-        if (this.vx > 0)
+        if (this.vxPropia > 0)
             this.orientacion.x = orientaciones.x.derecha;
-        else if (this.vx < 0)
+        else if (this.vxPropia < 0)
             this.orientacion.x = orientaciones.x.izquierda;
 
         // ANIMACIÓN
@@ -126,7 +127,10 @@ class Jugador extends Modelo {
     }
 
     moverX(direccion) {
-        this.vx = direccion * 5; // TODO Añadir inercia y aceleración
+        // TODO Añadir inercia y aceleración
+        this.vxPropia = direccion * 5;
+        this.vx = direccion * 5;
+
     }
 
     invertirGravedad() {

@@ -64,6 +64,13 @@ class GameLayer extends Layer {
         else if (this.jugador.vy < -10)
             this.jugador.vy = -10;
 
+        for (let i = 0; i < this.plataformasMoviles.length; i++) {
+            if (this.jugador.apoyadoEn(this.plataformasMoviles[i])) {
+                this.jugador.vx += this.plataformasMoviles[i].vx;
+                this.jugador.vy += this.plataformasMoviles[i].vy;
+            }
+        }
+
         this.espacio.actualizar();
         this.fondo.actualizar();
         this.jugador.actualizar();
