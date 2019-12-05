@@ -34,6 +34,7 @@ class GameLayer extends Layer {
         this.enemigos = [];
         this.checkpoints = [];
         this.plataformasTemporales = [];
+        this.plataformasMoviles = [];
         this.tesoros = [];
 
         this.cargarMapa("res/" + nivelX + "_" + nivelY + ".txt");
@@ -121,6 +122,10 @@ class GameLayer extends Layer {
             }
         }
 
+        for (let i = 0; i < this.plataformasMoviles.length; i++) {
+            this.plataformasMoviles[i].actualizar();
+        }
+
         for (let i = 0; i < this.tesoros.length; i++) {
             this.tesoros[i].actualizar();
             if (this.jugador.colisiona(this.tesoros[i])) {
@@ -175,6 +180,11 @@ class GameLayer extends Layer {
         for (let i = 0; i < this.plataformasTemporales.length; i++) {
             this.plataformasTemporales[i].dibujar();
         }
+
+        for (let i = 0; i < this.plataformasMoviles.length; i++) {
+            this.plataformasMoviles[i].dibujar();
+        }
+
         for (let i = 0; i < this.tesoros.length; i++) {
             this.tesoros[i].dibujar();
         }
@@ -318,6 +328,14 @@ class GameLayer extends Layer {
                 plataformaTemporal.y += plataformaTemporal.alto / 2;
                 this.plataformasTemporales.push(plataformaTemporal);
                 this.espacio.agregarCuerpoBloqueante(plataformaTemporal);
+                break;
+            case ">":
+                let plataformaMovil = new PlataformaMovil(x, y, sentidoMov.derecha);
+                plataformaMovil.x += plataformaMovil.ancho / 2;
+                plataformaMovil.y += plataformaMovil.alto / 2;
+                this.plataformasMoviles.push(plataformaMovil);
+                this.espacio.agregarCuerpoBloqueante(plataformaMovil);
+                this.espacio.agregarCuerpoDinamico(plataformaMovil);
                 break;
             case "1":
             case "2":

@@ -49,7 +49,6 @@ class Jugador extends Modelo {
                 this.estado = estados.quieto;
         }
 
-
         // ORIENTACIÓN
         if (this.vx > 0)
             this.orientacion.x = orientaciones.x.derecha;

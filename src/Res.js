@@ -33,6 +33,7 @@ let imagenes = {
     plataformaTemporalInvisible: "res/plataforma_desaparece_invisible.png",
     tesoro: "res/tesoro.png",
     tesoroAnimacion: "res/tesoro_animacion.png",
+    plataformaMovil: "res/plataforma_movil.png",
 
     pad: "res/pad.png",
     boton_disparo: "res/boton_disparo.png",
