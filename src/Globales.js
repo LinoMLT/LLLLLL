@@ -50,6 +50,13 @@ const nivelMaximo = {
     y: 2
 };
 
+const estadosPlataforma = {
+  normal: 1,
+  desapareciendo:  2,
+  invisible: 3,
+  apareciendo: 4
+};
+
 let pulsaciones = [];
 let entrada = entradas.pulsaciones;
 let escaladoMinimo = 1;

@@ -22,7 +22,7 @@ class Jugador extends Modelo {
 
         this.animacion = this.aDerecha;
 
-        this.tiempoEsperaSalto = 2;
+        this.tiempoEsperaSalto = 0;
         this.esperaSalto = 0;
     }
 
@@ -159,6 +159,26 @@ class Jugador extends Modelo {
             reproducirEfecto(efectos.muerte);
             this.estado = estados.muriendo;
         }
+    }
+
+    apoyadoEn(modelo) {
+        let apoyado = false;
+
+        if (this.orientacion.y === orientaciones.y.normal) {
+            if (modelo.x - modelo.ancho / 2 < this.x + this.ancho / 2
+                && modelo.x + modelo.ancho / 2 > this.x - this.ancho / 2
+                && this.y + this.alto / 2 === modelo.y - modelo.alto / 2) {
+                apoyado = true;
+            }
+        } else if (this.orientacion.y === orientaciones.y.inversa) {
+            if (modelo.x - modelo.ancho / 2 < this.x + this.ancho / 2
+                && modelo.x + modelo.ancho / 2 > this.x - this.ancho / 2
+                && this.y - this.alto / 2 === modelo.y + modelo.alto / 2) {
+                apoyado = true;
+            }
+        }
+
+        return apoyado;
     }
 
 }

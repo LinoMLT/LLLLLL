@@ -15,11 +15,17 @@ class GameLayer extends Layer {
         this.nivelActual = nivelInicial;
         this.ultimoGuardado = {};
 
-        this.iniciarNivel(nivelInicial.x, nivelInicial.y);
-
+        this.iniciarNuevoNivel(nivelInicial.x, nivelInicial.y);
     }
 
     iniciarNivel(nivelX, nivelY) {
+        if (nivelX === this.nivelActual.x && nivelY === this.nivelActual.y)
+            this.reiniciarNivelActual();
+        else
+            this.iniciarNuevoNivel(nivelX, nivelY);
+    }
+
+    iniciarNuevoNivel(nivelX, nivelY) {
         this.nivelActual = {x: nivelX, y: nivelY};
 
         this.espacio = new Espacio();
@@ -27,11 +33,19 @@ class GameLayer extends Layer {
         this.pinchos = [];
         this.enemigos = [];
         this.checkpoints = [];
+        this.plataformasTemporales = [];
 
         this.cargarMapa("res/" + nivelX + "_" + nivelY + ".txt");
         this.espacio.agregarCuerpoDinamico(this.jugador);
-        console.log("Último guardado", this.ultimoGuardado.nivel);
-        console.log("Orientación", this.ultimoGuardado.orientacion);
+    }
+
+    reiniciarNivelActual() {
+        for (let i = 0; i < this.plataformasTemporales.length; i++) {
+            if (this.plataformasTemporales[i].estado !== estadosPlataforma.normal) {
+                this.espacio.agregarCuerpoBloqueante(this.plataformasTemporales[i]);
+                this.plataformasTemporales[i].estado = estadosPlataforma.apareciendo;
+            }
+        }
     }
 
     actualizar() {
@@ -54,14 +68,7 @@ class GameLayer extends Layer {
 
         if (this.jugador.estado === estados.muerto) {
             this.espacio.descongelar();
-            this.jugador.estado = estados.quieto;
-            this.jugador.vx = 0;
-            this.jugador.vy = 0;
-            this.jugador.x = this.ultimoGuardado.x;
-            this.jugador.y = this.ultimoGuardado.y;
-            this.jugador.orientacion.x = this.ultimoGuardado.orientacion.x;
-            this.jugador.orientacion.y = this.ultimoGuardado.orientacion.y; // this.ultimoGuardado.orientacion.y;
-
+            this.revivirJugador();
             this.iniciarNivel(this.ultimoGuardado.nivel.x, this.ultimoGuardado.nivel.y);
             return;
         }
@@ -73,7 +80,6 @@ class GameLayer extends Layer {
         for (let i = 0; i < this.pinchos.length; i++) {
             if (this.jugador.colisiona(this.pinchos[i])) {
                 this.espacio.congelar();
-                // this.espacio.eliminarCuerpoDinamico(this.jugador);
                 this.jugador.morir();
             }
         }
@@ -100,8 +106,17 @@ class GameLayer extends Layer {
                     }
                 };
                 this.activarCheckpoint(this.checkpoints[i]);
-                console.log("Último guardado", this.ultimoGuardado.nivel);
-                console.log("Orientación", this.ultimoGuardado.orientacion);
+            }
+        }
+
+        for (let i = 0; i < this.plataformasTemporales.length; i++) {
+            let plataforma = this.plataformasTemporales[i];
+            plataforma.actualizar();
+
+            if (plataforma.estado === estadosPlataforma.invisible) {
+                this.espacio.eliminarCuerpoBloqueante(plataforma);
+            } else if (this.jugador.apoyadoEn(plataforma)) {
+                plataforma.activar();
             }
         }
 
@@ -112,6 +127,16 @@ class GameLayer extends Layer {
         for (let i = 0; i < this.checkpoints.length; i++) {
             this.checkpoints[i].actualizar();
         }
+    }
+
+    revivirJugador() {
+        this.jugador.estado = estados.quieto;
+        this.jugador.vx = 0;
+        this.jugador.vy = 0;
+        this.jugador.x = this.ultimoGuardado.x;
+        this.jugador.y = this.ultimoGuardado.y;
+        this.jugador.orientacion.x = this.ultimoGuardado.orientacion.x;
+        this.jugador.orientacion.y = this.ultimoGuardado.orientacion.y;
     }
 
     activarCheckpoint(checkpoint) {
@@ -136,6 +161,10 @@ class GameLayer extends Layer {
 
         for (let i = 0; i < this.checkpoints.length; i++) {
             this.checkpoints[i].dibujar();
+        }
+
+        for (let i = 0; i < this.plataformasTemporales.length; i++) {
+            this.plataformasTemporales[i].dibujar();
         }
 
         this.jugador.dibujar();
@@ -271,7 +300,12 @@ class GameLayer extends Layer {
                 checkpointInv.y += checkpointInv.alto / 2;
                 this.checkpoints.push(checkpointInv);
                 break;
-            // TODO Checkpoint invertido
+            case "_":
+                let plataformaTemporal = new PlataformaTemporal(x, y);
+                plataformaTemporal.x += plataformaTemporal.ancho / 2;
+                plataformaTemporal.y += plataformaTemporal.alto / 2;
+                this.plataformasTemporales.push(plataformaTemporal);
+                this.espacio.agregarCuerpoBloqueante(plataformaTemporal);
         }
     }
 
@@ -327,7 +361,11 @@ class GameLayer extends Layer {
     }
 
     cambiarNivel() {
-        let siguienteNivel = this.nivelActual;
+        let siguienteNivel = {
+            x: this.nivelActual.x,
+            y: this.nivelActual.y
+        };
+
         if (this.jugador.fuera.arriba) {
             siguienteNivel.y++;
             this.jugador.y = altoNativo - this.jugador.alto / 2;
@@ -354,7 +392,6 @@ class GameLayer extends Layer {
         else if (siguienteNivel.y < 0)
             siguienteNivel.y = nivelMaximo.y;
 
-        console.log(siguienteNivel);
         this.iniciarNivel(siguienteNivel.x, siguienteNivel.y);
     }
 

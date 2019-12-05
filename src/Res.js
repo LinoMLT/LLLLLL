@@ -27,6 +27,10 @@ let imagenes = {
     pincho_arriba: "res/pincho_arriba.png",
     enemigo1: "res/enemigo_1.png",
     enemigo1Animacion: "res/enemigo_1_animacion.png",
+    plataformaTemporal: "res/plataforma_desaparece.png",
+    plataformaTemporalAnimacion1: "res/plataforma_desaparece_animacion_1.png",
+    plataformaTemporalAnimacion2: "res/plataforma_desaparece_animacion_2.png",
+    plataformaTemporalInvisible: "res/plataforma_desaparece_invisible.png",
 
     pad: "res/pad.png",
     boton_disparo: "res/boton_disparo.png",
