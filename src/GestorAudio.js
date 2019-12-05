@@ -1,6 +1,6 @@
 let cancionVVVVVV = new Audio("res/pushing_onwards.mp3");
 let cancionLLLLLL = new Audio("res/LLLLL_main_theme_8bit.mp3");
-cancionVVVVVV.loop = true;
+cancionLLLLLL.loop = true;
 
 let efectos = {
     muerte: "res/efecto_muerte.mp3",
@@ -11,7 +11,7 @@ let efectos = {
 };
 
 function reproducirMusica() {
-    cancionVVVVVV.play();
+    cancionLLLLLL.play();
 }
 
 function pararMusica() {
