@@ -311,11 +311,18 @@ class GameLayer extends Layer {
                 this.espacio.agregarCuerpoBloqueante(bloqueBorde);
                 break;
             case "E":
-                let enemigo = new Enemigo(x, y, sentidoMov.abajo);
-                enemigo.x += enemigo.ancho / 2;
-                enemigo.y += enemigo.alto / 2;
-                this.enemigos.push(enemigo);
-                this.espacio.agregarCuerpoDinamico(enemigo);
+                let enemigo1 = new Enemigo1(imagenes.enemigo1, x, y, sentidoMov.abajo);
+                enemigo1.x += enemigo1.ancho / 2;
+                enemigo1.y += enemigo1.alto / 2;
+                this.enemigos.push(enemigo1);
+                this.espacio.agregarCuerpoDinamico(enemigo1);
+                break;
+            case "e":
+                let enemigo2 = new Enemigo2(imagenes.enemigo2, x, y, sentidoMov.izquierda);
+                enemigo2.x += enemigo2.ancho / 2;
+                enemigo2.y += enemigo2.alto / 2;
+                this.enemigos.push(enemigo2);
+                this.espacio.agregarCuerpoDinamico(enemigo2);
                 break;
             case "C":
                 let checkpoint = new Checkpoint(x, y, orientaciones.y.normal);
@@ -347,6 +354,7 @@ class GameLayer extends Layer {
             case "1":
             case "2":
             case "3":
+            case "4":
                 if (this.jugador != null && !this.jugador.tesoros.includes(simbolo)) {
                     let tesoro = new Tesoro(x, y, simbolo);
                     tesoro.x += tesoro.ancho / 2;

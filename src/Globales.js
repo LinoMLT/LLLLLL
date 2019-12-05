@@ -42,12 +42,12 @@ const sentidoMov = {
 };
 
 const nivelInicial = {
-    x: 0,
+    x: 1,
     y: 0
 };
 const nivelMaximo = {
-    x: 2,
-    y: 2
+    x: 3,
+    y: 3
 };
 
 const estadosPlataforma = {

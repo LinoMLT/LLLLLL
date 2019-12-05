@@ -130,7 +130,6 @@ class Jugador extends Modelo {
         // TODO Añadir inercia y aceleración
         this.vxPropia = direccion * 5;
         this.vx = direccion * 5;
-
     }
 
     invertirGravedad() {

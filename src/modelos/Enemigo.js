@@ -1,15 +1,9 @@
 class Enemigo extends Modelo {
 
-    constructor(x, y, sentido) {
-        super(imagenes.enemigo1, x, y);
+    constructor(imagenRuta, x, y, sentido) {
+        super(imagenRuta, x, y);
         this.sentidoMov = sentido;
-
         this.setVelocidadInicial(sentido);
-
-        this.aMover = new Animacion(imagenes.enemigo1Animacion, this.ancho, this.alto, 8, 4);
-
-        // Ref a la animación actual
-        this.animacion = this.aMover;
     }
 
     setVelocidadInicial(sentido) {
@@ -33,7 +27,6 @@ class Enemigo extends Modelo {
     }
 
     actualizar() {
-        this.animacion.actualizar();
         if (this.vx === 0 && (this.sentidoMov === sentidoMov.izquierda || this.sentidoMov === sentidoMov.derecha)) {
             this.vInteligencia = -this.vInteligencia;
             this.vx = this.vInteligencia;
@@ -41,10 +34,6 @@ class Enemigo extends Modelo {
             this.vInteligencia = -this.vInteligencia;
             this.vy = this.vInteligencia;
         }
-    }
-
-    dibujar() {
-        this.animacion.dibujar(this.x, this.y);
     }
 
 }
